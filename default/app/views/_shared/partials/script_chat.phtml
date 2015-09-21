@@ -1,0 +1,39 @@
+<?php if (Auth::is_valid()): ?>
+    <?php $login = Auth::get("login") ?>
+    <script>
+        var conn = new WebSocket('ws://localhost:3333?login='+"<?php echo Auth::get('login') ?>&id="+<?php echo Auth::get("id") ?>);
+        conn.onopen = function(e) {
+      
+            $("#mensajes").append("<p>Conexión establecida</p>");
+        };
+        conn.onmessage = function(e) {
+            var b = JSON.stringify(e.data);
+            var c = JSON.parse(b);
+            console.log(c)
+            if (c[0] == "{" || c[0] == "[") {
+                json = $.parseJSON(c);
+                html = '<ul class="list-group">';
+                for (a in json) {
+               
+                    html += '<li class="list-group-item conectados" id="'+json[a].id_usuario+'">'+json[a].login+'</li>';
+                };
+                html += '</ul>';
+                $("#contactos").html(html);
+                
+            }else{
+
+                $("#mensajes").append("<p>"+e.data+"</p>");
+            }
+           
+        };
+        window.onload = function(){
+            $("#texto").keyup(function(e){
+                var tecla = e.keyCode;
+                if (tecla == 13) {
+                    conn.send("<b><?php echo $login ?></b>: "+$(this).val());
+                    $(this).val("");
+                };
+            });
+        }
+    </script>
+<?php endif ?>
