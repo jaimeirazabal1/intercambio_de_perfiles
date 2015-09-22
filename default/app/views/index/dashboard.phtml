@@ -82,11 +82,28 @@
           <div class="panel-body" style="height:598px;overflow:scroll">
             <ul class="list-group" id="lista_candidatos">
               <?php foreach ($data as $key => $value): ?>
-                <li class="list-group-item"> &nbsp;<input type="checkbox"  class="seleccionar_candidato" id="<?php echo $value->id ?>"> 
-                                                    <span class="glyphicon glyphicon-user"> </span> 
-                                                     <span class="nombre" carrera="<?php echo $value->Carrera_o_profesion ?>" pais-estado="<?php echo $value->Pais."-".$value->estado ?>"><?php echo ucfirst($value->Nombre)." ".ucfirst($value->Apellido_Paterno) ?> 
-                                                     <span class="label label-default" class="carrera"><?php echo $value->Carrera_o_profesion ?></span> <br>
-                                                     &nbsp; &nbsp; &nbsp; &nbsp; <?php echo ucfirst($value->Pais)."-".ucfirst($value->estado) ?></span> &nbsp; 
+                <li class="list-group-item"> 
+                    <?php 
+                      $info = "Nombre: ".ucfirst($value->Nombre)." ".ucfirst($value->Nombre_2)." ".ucfirst($value->Apellido_Paterno)." ".ucfirst($value->Apellido_Materno)." 
+Nac: ".$value->dia_de_nacimiento."-".$value->mes_de_nacimiento."-19".$value->ano_de_nacimiento."
+Edad: ".Util::calculaedad($value->dia_de_nacimiento."-".$value->mes_de_nacimiento."-19".$value->ano_de_nacimiento)." 
+Direc: ".$value->Pais." ".$value->estado." ".$value->colonia." ".$value->calle." ".$value->numero." 
+Ult.Puesto: ".$value->Ultimo_puesto." - ".$value->descripción."
+Fec.Ingreso: ".$value->fecha_de_ingreso."
+Fec.Salida: ".$value->fecha_de_salida."
+Puesto 1: ".$value->Puesto_1." - ".$value->descripción_puesto_1."
+Idiomas: ".$value->Idioma_1."(".$value->porcentaje_de_idioma_1."), ".$value->Idioma_2."(".$value->porcentaje_de_idioma_2."), ".$value->Idioma_3."(".$value->porcentaje_de_idioma_3.")"."
+Carrera: ".$value->Carrera_o_profesion." ".$value->Institucion_o_universidad."(".$value->ano_de_ingreso_universidad."-".$value->ano_de_finalización_universidad.")
+Cursos: ".$value->Curso_1.", ".$value->Curso_2.", ".$value->Curso_3."
+Habilidades: ".$value->Habilidades;
+                     ?>
+                    <div class="pull-right"><span class="badge" title="<?php echo $info ?>">Info</span></div>
+                    <div class="clearfix"></div>
+                    &nbsp;<input type="checkbox"  class="seleccionar_candidato" id="<?php echo $value->id ?>"> 
+                    <span class="glyphicon glyphicon-user"> </span> 
+                    <span class="nombre" carrera="<?php echo $value->Carrera_o_profesion ?>" pais-estado="<?php echo $value->Pais."-".$value->estado ?>"><?php echo ucfirst($value->Nombre)." ".ucfirst($value->Apellido_Paterno) ?> 
+                    <span class="label label-default" class="carrera"><?php echo $value->Carrera_o_profesion ?></span> <br>
+                    &nbsp; &nbsp; &nbsp; &nbsp; <?php echo ucfirst($value->Pais)."-".ucfirst($value->estado) ?></span> &nbsp; 
                 </li>
               <?php endforeach ?>
             </ul>
