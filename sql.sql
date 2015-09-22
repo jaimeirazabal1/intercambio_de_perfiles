@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 21-09-2015 a las 15:22:59
+-- Tiempo de generación: 22-09-2015 a las 12:19:27
 -- Versión del servidor: 5.5.44-0ubuntu0.14.04.1
 -- Versión de PHP: 5.5.9-1ubuntu4.11
 
@@ -23,11 +23,66 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `carpeta`
+--
+
+CREATE TABLE IF NOT EXISTS `carpeta` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `usuario_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
+
+--
+-- Volcado de datos para la tabla `carpeta`
+--
+
+INSERT INTO `carpeta` (`id`, `nombre`, `created`, `usuario_id`) VALUES
+(2, 'Nueva Carpeta', '2015-09-22 15:31:54', 1),
+(3, 'Ingenieros', '2015-09-22 16:35:26', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `carpeta_data`
+--
+
+CREATE TABLE IF NOT EXISTS `carpeta_data` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `carpeta_id` int(11) NOT NULL,
+  `data_id` int(11) NOT NULL,
+  `objeto_json` text COLLATE utf8_unicode_ci,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=21 ;
+
+--
+-- Volcado de datos para la tabla `carpeta_data`
+--
+
+INSERT INTO `carpeta_data` (`id`, `carpeta_id`, `data_id`, `objeto_json`, `created`) VALUES
+(9, 2, 1, '{"id":"1","nombre_carpeta":"Nueva Carpeta","nombre":"Luis Garza","carrera":"Ingenier\\u00eda","pais_estado":"Mexico-Jalisco"}', '2015-09-22 15:31:54'),
+(10, 2, 2, '{"id":"2","nombre_carpeta":"Nueva Carpeta","nombre":"Jorge Verfara","carrera":"Licenciatura","pais_estado":"Estados Unidos-DF"}', '2015-09-22 15:31:54'),
+(11, 2, 3, '{"id":"3","nombre_carpeta":"Nueva Carpeta","nombre":"Arturo Vasconselos","carrera":"Abogado","pais_estado":"Espa\\u00f1a-morelos"}', '2015-09-22 15:31:54'),
+(12, 2, 4, '{"id":"4","nombre_carpeta":"Nueva Carpeta","nombre":"Alejandro Magno","carrera":"Aquirquitecto","pais_estado":"Colombia-Nuevo Leon"}', '2015-09-22 15:31:54'),
+(13, 3, 1, '{"id":"1","nombre_carpeta":"Ingenieros","nombre":"Luis Garza \\n                                                     Ingenier\\u00eda \\n                                                     \\u00a0 \\u00a0 \\u00a0 \\u00a0 Mexico-Jalisco","carrera":"Ingenier\\u00eda","pais_estado":"Mexico-Jalisco"}', '2015-09-22 16:35:26'),
+(14, 3, 5, '{"id":"5","nombre_carpeta":"Ingenieros","nombre":"Marco Jaimes \\n                                                     Ingenier\\u00eda \\n                                                     \\u00a0 \\u00a0 \\u00a0 \\u00a0 Australia-Colima","carrera":"Ingenier\\u00eda","pais_estado":"Australia-Colima"}', '2015-09-22 16:35:26'),
+(15, 3, 9, '{"id":"9","nombre_carpeta":"Ingenieros","nombre":"Marco Aguirre \\n                                                     Ingenier\\u00eda \\n                                                     \\u00a0 \\u00a0 \\u00a0 \\u00a0 Argentina-Queretaro","carrera":"Ingenier\\u00eda","pais_estado":"argentina-queretaro"}', '2015-09-22 16:35:26'),
+(16, 3, 13, '{"id":"13","nombre_carpeta":"Ingenieros","nombre":"Hugo Moran \\n                                                     Ingenier\\u00eda \\n                                                     \\u00a0 \\u00a0 \\u00a0 \\u00a0 Italia-Quintana roo","carrera":"Ingenier\\u00eda","pais_estado":"italia-quintana roo"}', '2015-09-22 16:35:26'),
+(17, 3, 17, '{"id":"17","nombre_carpeta":"Ingenieros","nombre":"Ana Ramirez \\n                                                     Ingenier\\u00eda \\n                                                     \\u00a0 \\u00a0 \\u00a0 \\u00a0 Uruguay-Durango","carrera":"Ingenier\\u00eda","pais_estado":"uruguay-durango"}', '2015-09-22 16:35:26'),
+(18, 3, 21, '{"id":"21","nombre_carpeta":"Ingenieros","nombre":"Anastacia Bustamante \\n                                                     Ingenier\\u00eda \\n                                                     \\u00a0 \\u00a0 \\u00a0 \\u00a0 Inglaterra-Tlaxcala","carrera":"Ingenier\\u00eda","pais_estado":"inglaterra-tlaxcala"}', '2015-09-22 16:35:26'),
+(19, 3, 25, '{"id":"25","nombre_carpeta":"Ingenieros","nombre":"Guadalupe Ramos \\n                                                     Ingenier\\u00eda \\n                                                     \\u00a0 \\u00a0 \\u00a0 \\u00a0 Rusia-Chihuahua","carrera":"Ingenier\\u00eda","pais_estado":"rusia-chihuahua"}', '2015-09-22 16:35:26'),
+(20, 3, 29, '{"id":"29","nombre_carpeta":"Ingenieros","nombre":"Samantha Osmos \\n                                                     Ingenier\\u00eda \\n                                                     \\u00a0 \\u00a0 \\u00a0 \\u00a0 Mexico-San luis potosi","carrera":"Ingenier\\u00eda","pais_estado":"mexico-san luis potosi"}', '2015-09-22 16:35:26');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `data`
 --
 
 CREATE TABLE IF NOT EXISTS `data` (
-  `id` int(2) DEFAULT NULL,
+  `id` int(2) NOT NULL AUTO_INCREMENT,
   `Nombre` varchar(9) DEFAULT NULL,
   `Nombre_2` varchar(9) DEFAULT NULL,
   `Apellido_Paterno` varchar(11) DEFAULT NULL,
@@ -64,8 +119,9 @@ CREATE TABLE IF NOT EXISTS `data` (
   `Curso_2` varchar(16) DEFAULT NULL,
   `Curso_3` varchar(15) DEFAULT NULL,
   `Habilidades` varchar(34) DEFAULT NULL,
-  `titulo_de_CV` varchar(10) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `titulo_de_CV` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=31 ;
 
 --
 -- Volcado de datos para la tabla `data`

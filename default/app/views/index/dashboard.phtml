@@ -10,10 +10,51 @@
     <div class="col-md-4">
       <div class="panel panel-info" >
           <div class="panel-heading">
-            <h3 class="panel-title">Nueva Carpeta</h3>
+            <h3 class="panel-title">Carpetas</h3>
           </div>
           <div class="panel-body" style="height:300px;overflow:scroll">
-            Panel content
+
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            <?php foreach ($carpetas as $key => $value): ?>
+              <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingOne">
+                  <h4 class="panel-title">
+                    <a role="button" style="text-decoration:none" data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo str_replace(' ', '_',$value->nombre) ?>" aria-expanded="true" aria-controls="collapse<?php echo str_replace(' ', '_',$value->nombre) ?>">
+                      <span class="glyphicon glyphicon-folder-open" class="carpetica_icono"></span> &nbsp;
+                      <?php echo $value->nombre ?>
+                    </a>
+                  </h4>
+                </div>
+                <div id="collapse<?php echo str_replace(' ', '_',$value->nombre) ?>" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                  <div class="panel-body">
+                    <?php $paises = $obj_carpeta_data->getByCarpetaId($value->id) ?>
+                    <?php foreach ($paises as $key2 => $value2): ?>
+                      <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingOne">
+                          <h4 class="panel-title">
+                            <a role="button" style="text-decoration:none" data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo str_replace(' ', '-',$value2->id.date("Y_m_d_H:i:s")) ?>" aria-expanded="true" aria-controls="collapse<?php echo str_replace(' ', '-',$value2->id.date("Y_m_d_H:i:s")) ?>">
+                              <span class="glyphicon glyphicon-folder-open" class="carpetica_icono"></span> &nbsp;
+                              <?php echo $value2->Pais."-".$value2->estado ?>
+                            </a>
+                          </h4>
+                        </div>
+                        <div id="collapse<?php echo str_replace(' ', '-',$value2->id.date("Y_m_d_H:i:s")) ?>" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                          <div class="panel-body">
+                            
+                          </div>
+                        </div>
+                      </div>
+                    <?php endforeach ?>
+                  </div>
+                </div>
+              </div>
+
+            <?php endforeach ?>
+              
+           
+
+            </div>
+
           </div>
         </div>
         <div class="panel panel-info" >
@@ -29,10 +70,35 @@
        
         <div class="panel panel-info">
           <div class="panel-heading">
-            <h3 class="panel-title">Candidatos</h3>
+            <div class="pull-left">
+              <h3 class="panel-title">Candidatos</h3>
+            </div>
+            <div class="pull-right" style="width:50%">
+              <input type="text" id="filtrar_candidatos" class="form-control input-sm" placeholder="Escribe una palabra para filtrar" style="width:100%">
+            </div>
+            <div class="clearfix"></div>
           </div>
-          <div class="panel-body" >
-            Panel content
+          <?php echo View::partial("script_filtrar_li") ?>
+          <div class="panel-body" style="height:598px;overflow:scroll">
+            <ul class="list-group" id="lista_candidatos">
+              <?php foreach ($data as $key => $value): ?>
+                <li class="list-group-item"> &nbsp;<input type="checkbox"  class="seleccionar_candidato" id="<?php echo $value->id ?>"> 
+                                                    <span class="glyphicon glyphicon-user"> </span> 
+                                                     <span class="nombre" carrera="<?php echo $value->Carrera_o_profesion ?>" pais-estado="<?php echo $value->Pais."-".$value->estado ?>"><?php echo ucfirst($value->Nombre)." ".ucfirst($value->Apellido_Paterno) ?> 
+                                                     <span class="label label-default" class="carrera"><?php echo $value->Carrera_o_profesion ?></span> <br>
+                                                     &nbsp; &nbsp; &nbsp; &nbsp; <?php echo ucfirst($value->Pais)."-".ucfirst($value->estado) ?></span> &nbsp; 
+                </li>
+              <?php endforeach ?>
+            </ul>
+          </div>
+          <div class="panel-footer">
+            <div class="pull-left">
+              <input type="button" id="crear_carpeta" class="btn btn-info" value="Enviar a Carpeta">
+            </div>
+            <div class="pull-right">
+              <input type="button" id="enviar_a_contacto" class="btn btn-info" value="Enviar a Contacto">
+            </div>
+            <div class="clearfix"></div>
           </div>
         </div>
     </div>
@@ -56,8 +122,83 @@
           
           </div>
           <div class="panel-footer">
-            <input type="text" class="form-control" id="texto" placeholder="Escribe aquí tu Mensaje">
+            <input type="text" class="form-control" id="texto" placeholder="Escribe aquí tu Mensaje, Luego presiona ENTER">
           </div>
         </div>
     </div>
 </div>
+<style type="text/css">
+  input[type=checkbox]
+  {
+    /* Double-sized Checkboxes */
+    -ms-transform: scale(2); /* IE */
+    -moz-transform: scale(2); /* FF */
+    -webkit-transform: scale(2); /* Safari and Chrome */
+    -o-transform: scale(2); /* Opera */
+    padding: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+</style>
+<script type="text/javascript">
+var candidatos_selecionados = [];
+  $(document).ready(function(){
+
+
+    $('.collapse').on('hidden.bs.collapse', function () {
+
+      a = $("a[href='#"+$(this).attr("id")+"']").find("span");
+      a.addClass("glyphicon-folder-close")
+      a.removeClass("glyphicon-folder-open")
+    })
+    $('.collapse').on('show.bs.collapse', function () {
+      
+      a = $("a[href='#"+$(this).attr("id")+"']").find("span")
+      a.removeClass("glyphicon-folder-close")
+      a.addClass("glyphicon-folder-open")
+    })
+
+    $("body").on("click","#crear_carpeta",function(evt){
+      var nombre_carpeta = prompt("Ingresa el nombre de la nueva carpeta!");
+      $(".seleccionar_candidato:checked").each(function(){
+        id = $(this).attr("id");
+        li = $(this).parent();
+ 
+        nombre = li.find(".nombre").text();
+        carrera = li.find(".nombre").attr("carrera");
+        pais_estado = li.find(".nombre").attr("pais-estado");
+
+        candidatos_selecionados.push(new Candidato(id,nombre_carpeta,nombre,carrera,pais_estado));
+      })
+      $.ajax({
+        url:"crear_carpeta",
+        data:{carpeta:JSON.stringify(candidatos_selecionados)},
+        type:"POST",
+        async:false,
+        dataType:"json",
+        success:function(r){
+          console.log(r)
+          nombre_carpeta = "";
+          candidatos_selecionados = [];
+        }
+      })
+      
+    })
+
+
+    $("body").on("click","#enviar_a_contacto",function(evt){
+      
+    })
+
+
+  });
+function Candidato(id,nombre_carpeta, nombre,carrera,pais_estado){
+  return {
+    'id': id,
+    'nombre_carpeta': nombre_carpeta,
+    'nombre': nombre,
+    'carrera': carrera,
+    "pais_estado" : pais_estado
+  };
+}
+</script>

@@ -1,0 +1,19 @@
+<script type="text/javascript">
+	$(function(){
+
+	    $('#filtrar_candidatos').keyup(function(){
+	        
+	        var searchText = $(this).val();
+	        
+	        $('#lista_candidatos > li').each(function(){
+	            
+	            var currentLiText = $(this).text(),
+	                showCurrentLi = currentLiText.indexOf(searchText) !== -1;
+	            
+	            $(this).toggle(showCurrentLi);
+	            
+	        });     
+	    });
+
+	});
+</script>

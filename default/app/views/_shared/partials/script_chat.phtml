@@ -9,13 +9,13 @@
         conn.onmessage = function(e) {
             var b = JSON.stringify(e.data);
             var c = JSON.parse(b);
-            console.log(c)
+        
             if (c[0] == "{" || c[0] == "[") {
                 json = $.parseJSON(c);
                 html = '<ul class="list-group">';
                 for (a in json) {
                
-                    html += '<li class="list-group-item conectados" id="'+json[a].id_usuario+'">'+json[a].login+'</li>';
+                    html += '<li class="list-group-item conectados" id="'+json[a].id_usuario+'"> <span class="glyphicon glyphicon-star-empty"></span> &nbsp; '+json[a].login+'</li>';
                 };
                 html += '</ul>';
                 $("#contactos").html(html);

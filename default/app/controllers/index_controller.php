@@ -4,7 +4,7 @@
  * Controller por defecto si no se usa el routes
  * 
  */
-Load::models("usuario","data");
+Load::models("usuario","data","carpeta","carpeta_data");
 class IndexController extends AppController
 {
 
@@ -55,8 +55,29 @@ class IndexController extends AppController
     public function dashboard(){
     	if (Auth::is_valid()) {
 	    	$data = new Data();
+            $carpeta = new Carpeta();
 	    	$this->data = $data->find();
+            $this->carpetas = $carpeta->get_nombre_carpetas_by_user_id(Auth::get("id"));
+            $this->obj_carpeta_data = new CarpetaData();
     	}
+    }
+    public function crear_carpeta(){
+        View::select(null,"json");
+        $nueva_carpeta = new Carpeta();
+        $carpeta_data = new CarpetaData();
+        $carpeta = json_decode(Input::post("carpeta"));
+        /*aqui crea la carpeta*/
+        if ($nueva_carpeta->nueva_carpeta($carpeta[0]->nombre_carpeta)) {
+            $id = $nueva_carpeta->ultimo_id();
+            $result = $carpeta_data->ingresar_a_carpeta($id,$carpeta);
+            if (is_array($result)) {
+                $this->data = array("error"=>$result);
+            }else{
+                $this->data = array("correcto"=>$nueva_carpeta->get_carpetas_by_user_id(Auth::get("id")));
+            }
+        }else{
+            $this->data = false;
+        }
     }
 
 }
