@@ -100,9 +100,15 @@ Habilidades: ".$value->Habilidades;
                     <div class="pull-right"><span class="badge" title="<?php echo $info ?>">Info</span></div>
                     <div class="clearfix"></div>
                     &nbsp;<input type="checkbox"  class="seleccionar_candidato" id="<?php echo $value->id ?>"> 
-                    <span class="glyphicon glyphicon-user"> </span> 
+                    <span style="display:none"><?php echo $value->sexo ?></span>
+                    <?php if (strtolower($value->sexo) == "hombre" ): ?>
+                      <?php echo Html::img("hombre_icono.png","","width='30px'") ?>
+                      <?php else: ?>
+                      <?php echo Html::img("mujer_icono.png","","width='30px'") ?>
+                    <?php endif ?>
+                   
                     <span class="nombre" carrera="<?php echo $value->Carrera_o_profesion ?>" pais-estado="<?php echo $value->Pais."-".$value->estado ?>"><?php echo ucfirst($value->Nombre)." ".ucfirst($value->Apellido_Paterno) ?> 
-                    <span class="label label-default" class="carrera"><?php echo $value->Carrera_o_profesion ?></span> <br>
+                    <span class="label label-default" class="carrera"><?php echo ucfirst($value->Ultimo_puesto) ?></span> <br>
                     &nbsp; &nbsp; &nbsp; &nbsp; <?php echo ucfirst($value->Pais)."-".ucfirst($value->estado) ?></span> &nbsp; 
                 </li>
               <?php endforeach ?>
