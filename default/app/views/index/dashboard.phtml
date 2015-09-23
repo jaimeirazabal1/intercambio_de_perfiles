@@ -1,7 +1,7 @@
 <?php if (Auth::is_valid()): ?>
-    <div class="pull-right">
-        <?php echo Html::link("index/index","Crear Usuario","class='btn btn-default'") ?>
-        <?php echo Html::link("index/logout","Cerrar Sesión","class='btn btn-danger'") ?>
+    <div class="pull-right" >
+        <?php echo Html::link("index/index","Crear Usuario","class='btn btn-default btn-xs'") ?>
+        <?php echo Html::link("index/logout","Cerrar Sesión","class='btn btn-danger btn-xs'") ?>
     </div>
     <div class="clearfix"></div>
 <?php endif ?>
@@ -12,7 +12,7 @@
           <div class="panel-heading">
             <h3 class="panel-title">Carpetas</h3>
           </div>
-          <div class="panel-body" style="height:300px;overflow:scroll">
+          <div class="panel-body" style="height:290px;overflow:scroll">
 
             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
             <?php foreach ($carpetas as $key => $value): ?>
@@ -61,7 +61,7 @@
           <div class="panel-heading">
             <h3 class="panel-title">Outbox</h3>
           </div>
-          <div class="panel-body" style="height:300px;overflow:scroll">
+          <div class="panel-body" style="height:290px;overflow:scroll">
             Panel content
           </div>
         </div>   
@@ -73,14 +73,42 @@
             <div class="pull-left">
               <h3 class="panel-title">Candidatos</h3>
             </div>
-            <div class="pull-right" style="width:50%">
-              <input type="text" id="filtrar_candidatos" class="form-control input-sm" placeholder="Escribe una palabra para filtrar" style="width:100%">
+            
+            <div class="pull-right">
+              
+                
+              <div class="dropdown">
+
+                <button id="dLabel" type="button" class="btn btn-default btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Búsqueda
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dLabel">
+                          <li style="padding:4px"><input type="text" id="filtrar_nombre" class="form-control input-sm input-busqueda" placeholder="Nombre" style="width:100%"></li>
+                          <li style="padding:4px"><input type="text" id="filtrar_puesto" class="form-control input-sm input-busqueda" placeholder="Ultimo Puesto" style="width:100%"></li>
+                          <li style="padding:4px"><input type="text" id="filtrar_edad" class="form-control input-sm input-busqueda" placeholder="Edad" style="width:100%"></li>
+                          <li style="padding:4px"><input type="text" id="filtrar_pais" class="form-control input-sm input-busqueda" placeholder="Pais" style="width:100%"></li>
+                          <li style="padding:4px"><input type="text" id="filtrar_estado" class="form-control input-sm input-busqueda" placeholder="Estado" style="width:100%"></li>
+                          <li style="padding:4px"><input type="text" id="filtrar_descripcion" class="form-control input-sm input-busqueda" placeholder="Descripcion" style="width:100%"></li>
+                          <li style="padding:4px"><input type="text" id="filtrar_idioma1" class="form-control input-sm input-busqueda" placeholder="Idioma 1" style="width:100%"></li>
+                          <li style="padding:4px"><input type="text" id="filtrar_idioma2" class="form-control input-sm input-busqueda" placeholder="Idioma 2" style="width:100%"></li>
+                          <li style="padding:4px"><input type="text" id="filtrar_idioma3" class="form-control input-sm input-busqueda" placeholder="Idioma 3" style="width:100%"></li>
+                          <li style="padding:4px"><input type="text" id="filtrar_carrera" class="form-control input-sm input-busqueda" placeholder="Carrera" style="width:100%"></li>
+                          <li style="padding:4px"><input type="text" id="filtrar_institucion" class="form-control input-sm input-busqueda" placeholder="Institucion" style="width:100%"></li>
+                          <li style="padding:4px"><input type="text" id="filtrar_habilidades" class="form-control input-sm input-busqueda" placeholder="Habilidades" style="width:100%"></li>
+                          <li style="padding:4px"><input type="text" id="filtrar_sueldo" class="form-control input-sm input-busqueda" placeholder="Sueldo" style="width:100%"></li>
+                </ul>
+              </div>
             </div>
+              <div class="pull-right">
+                <!--<button class="btn btn-default btn-xs" id="mostrar_todo">Mostrar Todo</button>-->
+              </div>
             <div class="clearfix"></div>
           </div>
           <?php echo View::partial("script_filtrar_li") ?>
-          <div class="panel-body" style="height:598px;overflow:scroll">
+          <div class="panel-body" style="height:580px;overflow:scroll">
             <ul class="list-group" id="lista_candidatos">
+            <?php $contador = 1; ?>
               <?php foreach ($data as $key => $value): ?>
                 <li class="list-group-item"> 
                     <?php 
@@ -95,19 +123,25 @@ Puesto 1: ".$value->Puesto_1." - ".$value->descripción_puesto_1."
 Idiomas: ".$value->Idioma_1."(".$value->porcentaje_de_idioma_1."), ".$value->Idioma_2."(".$value->porcentaje_de_idioma_2."), ".$value->Idioma_3."(".$value->porcentaje_de_idioma_3.")"."
 Carrera: ".$value->Carrera_o_profesion." ".$value->Institucion_o_universidad."(".$value->ano_de_ingreso_universidad."-".$value->ano_de_finalización_universidad.")
 Cursos: ".$value->Curso_1.", ".$value->Curso_2.", ".$value->Curso_3."
-Habilidades: ".$value->Habilidades;
+Habilidades: ".$value->Habilidades."
+Sueldo: ".$value->sueldo;
                      ?>
-                    <div class="pull-right"><span class="badge" title="<?php echo $info ?>">Info</span></div>
+                    <div class="pull-right"><span class="badge" title="<?php echo $info ?>"> Ver Perfil</span></div>
                     <div class="clearfix"></div>
+                    <?php echo $contador ?>
+                    <?php $contador++ ?>
                     &nbsp;<input type="checkbox"  class="seleccionar_candidato" id="<?php echo $value->id ?>"> 
                     <span style="display:none"><?php echo $value->sexo ?></span>
+                    <span style="display:none"><?php echo $info ?></span>
+                    
                     <?php if (strtolower($value->sexo) == "hombre" ): ?>
                       <?php echo Html::img("hombre_icono.png","","width='30px'") ?>
                       <?php else: ?>
                       <?php echo Html::img("mujer_icono.png","","width='30px'") ?>
                     <?php endif ?>
                    
-                    <span class="nombre" carrera="<?php echo $value->Carrera_o_profesion ?>" pais-estado="<?php echo $value->Pais."-".$value->estado ?>"><?php echo ucfirst($value->Nombre)." ".ucfirst($value->Apellido_Paterno) ?> 
+                    <span class="nombre" carrera="<?php echo $value->Ultimo_puesto ?>" pais-estado="<?php echo $value->Pais."-".$value->estado ?>"><?php echo ucfirst($value->Nombre)." ".ucfirst($value->Apellido_Paterno) ?> 
+
                     <span class="label label-default" class="carrera"><?php echo ucfirst($value->Ultimo_puesto) ?></span> <br>
                     &nbsp; &nbsp; &nbsp; &nbsp; <?php echo ucfirst($value->Pais)."-".ucfirst($value->estado) ?></span> &nbsp; 
                 </li>
@@ -130,7 +164,7 @@ Habilidades: ".$value->Habilidades;
           <div class="panel-heading">
             <h3 class="panel-title">Contactos</h3>
           </div>
-          <div class="panel-body" id="contactos" style="height:300px;overflow:scroll">
+          <div class="panel-body" id="contactos" style="height:280px;overflow:scroll">
             
           </div>
         </div>
@@ -150,6 +184,28 @@ Habilidades: ".$value->Habilidades;
         </div>
     </div>
 </div>
+
+<!-- MODAL PARA FILTROS -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Búsqueda</h4>
+      </div>
+      <div class="modal-body">
+        <p>
+
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+    
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <style type="text/css">
   input[type=checkbox]
   {

@@ -1,19 +1,58 @@
 <script type="text/javascript">
 	$(function(){
 
-	    $('#filtrar_candidatos').keyup(function(){
+	    $('#filtrar_nombre,#filtrar_puesto,#filtrar_edad,#filtrar_pais,#filtrar_estado,#filtrar_descripcion,#filtrar_idioma1,#filtrar_idioma2,#filtrar_idioma3,#filtrar_carrera,#filtrar_institucion,#filtrar_habilidades,#filtrar_sueldo').keyup(function(e){
 	        
-	        var searchText = $(this).val();
-	        
-	        $('#lista_candidatos > li').each(function(){
-	            
-	            var currentLiText = $(this).text(),
-	                showCurrentLi = currentLiText.indexOf(searchText) !== -1;
-	            
-	            $(this).toggle(showCurrentLi);
-	            
-	        });     
+	        var tecla = e.keyCode;
+	        console.log(tecla)
+
+	        if (tecla == 8) {
+	        	$('#lista_candidatos > li').each(function(){
+			            $(this).css("display","block") 
+		        });  
+		        $(".input-busqueda").each(function(){
+		        	searchText = $(this).val();
+			        $('#lista_candidatos > li').each(function(){
+			          
+			            if($(this).css("display") == "block"){
+
+				            var currentLiText = $(this).text(),
+				                showCurrentLi = currentLiText.indexOf(searchText) !== -1;
+				            	console.log(searchText)
+				            $(this).toggle(showCurrentLi);
+			        	}
+
+			            
+			        });   
+		        })
+	        }else{
+
+		        if (tecla != 9) {
+
+			        var searchText = $(this).val();
+			        
+			        $('#lista_candidatos > li').each(function(){
+			            
+			            if($(this).css("display") == "block"){
+
+				            var currentLiText = $(this).text(),
+				                showCurrentLi = currentLiText.indexOf(searchText) !== -1;
+				            console.log(showCurrentLi)
+				            $(this).toggle(showCurrentLi);
+			        	}
+
+			            
+			        });     
+		        };
+	        }
 	    });
+
+	    $("body").on("click","#mostrar_todo",function(){
+	    	$('#lista_candidatos > li').each(function(){
+		            $(this).css("display","block") 
+	        });   
+	        $(".input-busqueda").val("");
+	    })
 
 	});
 </script>
